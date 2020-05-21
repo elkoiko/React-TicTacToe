@@ -4,8 +4,11 @@ import { Game } from './Game';
 
 function App() {
   return (
-    <Game />
-    );
+    <>
+      <h1 className="App__Title">React TicTacToe</h1>
+      <Game />
+    </>
+  );
 }
 
 export default App;

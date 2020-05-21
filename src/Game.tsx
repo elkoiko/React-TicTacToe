@@ -3,34 +3,38 @@ import './Game.css';
 
 interface SquareProps {
     onClickOnSquare: HandleClickOnSquare
-    value: string;
+    player: string;
     index: number;
+    hasWon: boolean;
 }
 
 const Square: React.FC<SquareProps> = (props) => {
     return (
         <button
-            className="Square"
+            className={"Square " + (props.hasWon ? "Square--won" : "")}
             onClick={() => props.onClickOnSquare(props.index)}
         >
-            {props.value}
+            {props.player}
         </button>
     );
 };
 
 interface BoardProps {
     squares: Array<string>;
-    onClickOnSquare: HandleClickOnSquare
+    onClickOnSquare: HandleClickOnSquare;
+    winningLine: Array<number>;
 }
 
 const Board: React.FC<BoardProps> = (props) => {
 
     function renderSquare(i: number) {
+        const hasWon = props.winningLine.includes(i);
         return (
             <Square
-                value={props.squares[i]}
+                player={props.squares[i]}
                 onClickOnSquare={props.onClickOnSquare}
                 index={i}
+                hasWon={hasWon}
             />);
     }
 
@@ -73,7 +77,7 @@ export const Game: React.FC = () => {
         const squares = current.squares.slice();
 
         // Ignore click if has won or square is already filled
-        if (calculateWinner(squares) || squares[index]) return;
+        if (calculateWinner(squares)[0] || squares[index]) return;
 
         squares[index] = xIsNext ? 'X' : 'O';
         setHistory(tmpHistory.concat(
@@ -94,7 +98,7 @@ export const Game: React.FC = () => {
     }, [history]);
 
     const current = history[stepNumber];
-    const winner = calculateWinner(current.squares);
+    const [winner, winningLine] = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
         const desc = move ?
@@ -120,6 +124,7 @@ export const Game: React.FC = () => {
             <Board
                 squares={current.squares}
                 onClickOnSquare={handleClickOnSquare}
+                winningLine={winningLine}
             />
             <div className="Game__Info">
                 <p className="Game__Status">{status}</p>
@@ -129,7 +134,10 @@ export const Game: React.FC = () => {
     );
 }
 
-function calculateWinner(squares: Array<string>): string | null {
+// Verifies if there is a winner
+// Returns [null , null] if not or a tuple with the letter that has won
+// and an array containing the indexes of winning line
+function calculateWinner(squares: Array<string>): [string | null, Array<number>] {
     const lines = [
         [0, 1, 2],
         [3, 4, 5],
@@ -143,8 +151,8 @@ function calculateWinner(squares: Array<string>): string | null {
     for (let i = 0; i < lines.length; i++) {
         const [a, b, c] = lines[i];
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
+            return [squares[a], lines[i]];
         }
     }
-    return null;
+    return [null, Array<number>(0)];
 }

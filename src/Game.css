@@ -1,67 +1,103 @@
 body {
-    font: 14px "Roboto", Futura, sans-serif;
-    margin: 20px;
-  }
-  
-  ol, ul {
-    padding-left: 30px;
-  }
-  
-  .status {
-    margin-bottom: 10px;
-  }
-  
-  .Square {
-    background: #fff;
-    border: none;
-    font-size: 6em;
-    font-weight: bold;
-    padding: 0;
-    text-align: center;
-    width: 34px;
-    flex-grow: 1;
-  }
+  font: 14px "Roboto", Futura, sans-serif;
+  margin: 20px;
+}
 
-  .Square + .Square {
-    border-left: 2px solid black;
-  }
+ol, ul {
+  padding-left: 30px;
+}
 
-  .Board__Row + .Board__Row .Square {
-    border-top: 2px solid black;
-  }
+.status {
+  margin-bottom: 10px;
+}
+
+/*
+Animations
+*/
+
+@keyframes wonAnimation {
+  0% {color: white;}
+  25% {color: black;}
+  50% {color: white;}
+  75% {color: black;}
+  100% {color: white;}
+}
+ 
+.Game {
+  display: flex;
+  flex-direction: row;
+  padding-top: 50px;
+}
+
+.Game__Board {
+  height: 60vh;
+  width: 50vw;
+  max-width: 600px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.Game__Info {
+  margin: 0 20px 0 20px;
+  margin-right: 50px;
+}
+
+.Game__Status {
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.Board__Row {
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.Square {
+  background: #fff;
+  border: none;
+  font-size: 6em;
+  font-weight: bold;
+  padding: 0;
+  text-align: center;
+  width: 34px;
+  flex-grow: 1;
+  cursor: pointer;
+}
+
+.Square--won {
+  animation-name: wonAnimation;
+  animation-duration: 1s;
+}
+
+.Square + .Square {
+  border-left: 2px solid black;
+}
+
+.Board__Row + .Board__Row .Square {
+  border-top: 2px solid black;
+}
+
+.Square:focus {
+  outline: none;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
   
-  .Square:focus {
-    outline: none;
-  }
-    
   .Game {
-    display: flex;
-    flex-direction: row;
-    padding-top: 50px;
+    flex-direction: column;
   }
 
   .Game__Board {
-    height: 80vh;
-    width: 50vw;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    width: 80vw;
   }
 
-  .Board__Row {
-    width: 100%;
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-  }
-
-  .Game__Status {
-    font-size: 1.5em;
-    text-align: center;
-  }
-  
   .Game__Info {
-    margin: 0 20px 0 20px;
+    margin: auto;
   }
+
+}
