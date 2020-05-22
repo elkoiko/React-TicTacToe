@@ -22,6 +22,14 @@ Animations
   75% {color: black;}
   100% {color: white;}
 }
+
+@keyframes noWinnerAnimation {
+  0% {border-color: white;}
+  25% {border-color: black;}
+  50% {border-color: white;}
+  75% {border-color: black;}
+  100% {border-color: white;}
+}
  
 .Game {
   display: flex;
@@ -65,6 +73,7 @@ Animations
   padding: 0;
   text-align: center;
   width: 34px;
+  min-height: 1.5em;
   flex-grow: 1;
   cursor: pointer;
 }
@@ -73,13 +82,18 @@ Animations
   animation-name: wonAnimation;
   animation-duration: 1s;
 }
+.Square--noWinner {
+  color: grey;
+  animation-name: noWinnerAnimation;
+  animation-duration: 1s;
+}
 
 .Square + .Square {
-  border-left: 2px solid black;
+  border-left: 3px solid black;
 }
 
 .Board__Row + .Board__Row .Square {
-  border-top: 2px solid black;
+  border-top: 3px solid black;
 }
 
 .Square:focus {

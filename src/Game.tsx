@@ -6,12 +6,13 @@ interface SquareProps {
     player: string;
     index: number;
     hasWon: boolean;
+    hasNoWinner: boolean;
 }
 
 const Square: React.FC<SquareProps> = (props) => {
     return (
         <button
-            className={"Square " + (props.hasWon ? "Square--won" : "")}
+            className={"Square " + (props.hasWon ? "Square--won " : "") + (props.hasNoWinner ? "Square--noWinner " : "")}
             onClick={() => props.onClickOnSquare(props.index)}
         >
             {props.player}
@@ -23,6 +24,7 @@ interface BoardProps {
     squares: Array<string>;
     onClickOnSquare: HandleClickOnSquare;
     winningLine: Array<number>;
+    isPartyOver: boolean;
 }
 
 const Board: React.FC<BoardProps> = (props) => {
@@ -35,6 +37,7 @@ const Board: React.FC<BoardProps> = (props) => {
                 onClickOnSquare={props.onClickOnSquare}
                 index={i}
                 hasWon={hasWon}
+                hasNoWinner={(props.isPartyOver && !hasWon) ? true : false}
             />);
     }
 
@@ -125,6 +128,7 @@ export const Game: React.FC = () => {
                 squares={current.squares}
                 onClickOnSquare={handleClickOnSquare}
                 winningLine={winningLine}
+                isPartyOver={(history.length >= 10) ? true : false }
             />
             <div className="Game__Info">
                 <p className="Game__Status">{status}</p>
